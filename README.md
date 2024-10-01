@@ -1,1 +1,4 @@
-# trabalho-esm
+# Sistema para aproveitamento de componentes e trabalhos para os estudantes de Engenharia Elétrica
+# Contextualização
+
+No panorama hodierno, é sabido que muitas disciplinas de Laboratório no curso de graduação em Engenharia Elétrica exigem dos discentes aporte financeiro para compra de materiais como resistores, capacitores, transistores, etc. para realização dos projetos propostos em sala de aula. Corriqueiramente, esses componentes são comprados em grande volume - via de regra, todos juntos da turma ou algo do gênero, o que faz com que no fim do semestre, haja um acúmulo de itens restantes. Nesse sentido, esse sistema vem com o intuito de facilitar a comercialização e até mesmo a doação desses materiais, o que, indubitavelmente, impacta de maneira positiva o cotidiano dos futuros engenheiros eletricistas.
