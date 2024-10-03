@@ -10,7 +10,7 @@ A plataforma portanto apresentará as features de um marketplace, onde o usuári
 
 Para implementar esse projeto, a equipe formada é composta por: 
  * Arthur
- * Pedro Henrique Faluba Martins: Desenvolvedor Full Stack
+ * Pedro Henrique Faluba Martins: Full Stack e banco de dados
  * Victor
 
-A plataforma será desenvolvida utilizando a linguagem ____ e utilizará o ____ como banco de dados. Além disso, serão utilizados os frameworks ___________.
+A plataforma será desenvolvida utilizando a linguagem JavaScript, tanto para o front-end quanto para o back-end, e utilizará o MySql como banco de dados. Além disso, serão utilizados os frameworks Nodejs para desenvolvimento do back-end e React para desenvolvimento do front-end.
