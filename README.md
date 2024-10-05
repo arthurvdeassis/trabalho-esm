@@ -11,6 +11,6 @@ A plataforma portanto apresentará as features de um marketplace, onde o usuári
 Para implementar esse projeto, a equipe formada é composta por: 
  * Arthur: Frontend e banco de dados
  * Pedro Henrique Faluba Martins: Full Stack e banco de dados
- * Victor
+ * Victor: Backend e banco de dados
 
-A plataforma será desenvolvida utilizando a linguagem JavaScript, tanto para o front-end quanto para o back-end, e utilizará o MySql como banco de dados. Além disso, serão utilizados os frameworks Nodejs para desenvolvimento do back-end e React para desenvolvimento do front-end.
+A plataforma será desenvolvida utilizando a linguagem JavaScript, tanto para o front-end quanto para o back-end, e utilizará o MySql como banco de dados. Além disso, serão utilizados os frameworks Node.js para desenvolvimento do back-end e React.js para desenvolvimento do front-end.
