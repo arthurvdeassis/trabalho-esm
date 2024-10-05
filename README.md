@@ -9,7 +9,7 @@ Desse modo, a plataforma poderá servir como um repositório de conhecimento, on
 A plataforma portanto apresentará as features de um marketplace, onde o usuário pode cadastrar o seu perfil, anunciar itens e visualizar os anunciados por outros usuários, entrar em contato com os vendedores, realizar compras e fazer avaliações.
 
 Para implementar esse projeto, a equipe formada é composta por: 
- * Arthur
+ * Arthur: Frontend e banco de dados
  * Pedro Henrique Faluba Martins: Full Stack e banco de dados
  * Victor
 
