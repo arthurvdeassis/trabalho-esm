@@ -1,2 +1,3 @@
 script.sql
 component-manager/node_modules
+component-manager/.env
