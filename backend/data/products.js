@@ -65,7 +65,7 @@ const products = [
       'Kit de resistores variados, útil em diversas disciplinas de laboratório ao longo do curso.',
     brand: '-',
     category: 'Eletrônicos',
-    price: 29.99,
+    price: 30.00,
     countInStock: 10,
     rating: 4.7,
     numReviews: 45,
