@@ -119,10 +119,10 @@ const ProductListScreen = () => {
 
       <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Confirmação de Exclusão</Modal.Title>
+          <Modal.Title>Confirmar Exclusão</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Você tem certeza que deseja deletar este produto?
+          Você tem certeza que deseja excluir este produto?
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
