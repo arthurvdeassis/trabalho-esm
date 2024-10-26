@@ -63,9 +63,8 @@ const Header = () => {
                 </Nav.Link>
               )}
 
-              {/* Admin Links */}
               {userInfo && userInfo.isAdmin && (
-                <NavDropdown title='Admin' id='adminmenu'>
+                <NavDropdown title='Painel do administrador' id='adminmenu'>
                   <NavDropdown.Item as={Link} to='/admin/productlist'>
                     Produtos
                   </NavDropdown.Item>
