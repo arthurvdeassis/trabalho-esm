@@ -1,4 +1,4 @@
-import { Table, Button, Row, Col } from 'react-bootstrap';
+import { Table, Button, Row, Col, Modal } from 'react-bootstrap';
 import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
 import { Link, useParams } from 'react-router-dom';
 import Message from '../../components/Message';
@@ -10,6 +10,7 @@ import {
   useCreateProductMutation,
 } from '../../slices/productsApiSlice';
 import { toast } from 'react-toastify';
+import { useState } from 'react';
 
 const ProductListScreen = () => {
   const { pageNumber } = useParams();
@@ -18,31 +19,33 @@ const ProductListScreen = () => {
     pageNumber,
   });
 
-  const [deleteProduct, { isLoading: loadingDelete }] =
-    useDeleteProductMutation();
+  const [deleteProduct, { isLoading: loadingDelete }] = useDeleteProductMutation();
+  const [createProduct, { isLoading: loadingCreate }] = useCreateProductMutation();
 
-  const deleteHandler = async (id) => {
-    if (window.confirm('Você tem certeza?')) {
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [productToDelete, setProductToDelete] = useState(null);
+
+  const deleteHandler = async () => {
+    if (productToDelete) {
       try {
-        await deleteProduct(id);
+        await deleteProduct(productToDelete);
         refetch();
+        setProductToDelete(null);
+        setShowDeleteModal(false);
       } catch (err) {
         toast.error(err?.data?.message || err.error);
       }
     }
   };
 
-  const [createProduct, { isLoading: loadingCreate }] =
-    useCreateProductMutation();
-
   const createProductHandler = async () => {
-    if (window.confirm('Você tem certeza que deseja criar um novo produto?')) {
-      try {
-        await createProduct();
-        refetch();
-      } catch (err) {
-        toast.error(err?.data?.message || err.error);
-      }
+    try {
+      await createProduct();
+      refetch();
+      setShowCreateModal(false);
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
     }
   };
 
@@ -53,7 +56,7 @@ const ProductListScreen = () => {
           <h1>Produtos</h1>
         </Col>
         <Col className='text-end'>
-          <Button className='my-3' onClick={createProductHandler}>
+          <Button className='my-3' onClick={() => setShowCreateModal(true)}>
             <FaPlus /> Criar produto
           </Button>
         </Col>
@@ -98,7 +101,10 @@ const ProductListScreen = () => {
                     <Button
                       variant='danger'
                       className='btn-sm'
-                      onClick={() => deleteHandler(product._id)}
+                      onClick={() => {
+                        setProductToDelete(product._id);
+                        setShowDeleteModal(true);
+                      }}
                     >
                       <FaTrash style={{ color: 'white' }} />
                     </Button>
@@ -110,6 +116,40 @@ const ProductListScreen = () => {
           <Paginate pages={data.pages} page={data.page} isAdmin={true} />
         </>
       )}
+
+      <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirmação de Exclusão</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Você tem certeza que deseja deletar este produto?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
+            Cancelar
+          </Button>
+          <Button variant="danger" onClick={deleteHandler}>
+            Deletar
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal show={showCreateModal} onHide={() => setShowCreateModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Criar Produto</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Você tem certeza que deseja criar um novo produto?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowCreateModal(false)}>
+            Cancelar
+          </Button>
+          <Button variant="primary" onClick={createProductHandler}>
+            Criar
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };
