@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Button } from 'react-bootstrap';
+import { Table, Button, Modal } from 'react-bootstrap';
 import { FaTrash, FaEdit, FaCheck, FaTimes } from 'react-icons/fa';
 import Message from '../../components/Message';
 import Loader from '../../components/Loader';
@@ -12,8 +12,9 @@ import { Link } from 'react-router-dom';
 
 const UserListScreen = () => {
   const { data: users, refetch, isLoading, error } = useGetUsersQuery();
-
   const [deleteUser] = useDeleteUserMutation();
+  const [showModal, setShowModal] = React.useState(false);
+  const [userIdToDelete, setUserIdToDelete] = React.useState(null);
 
   const deleteHandler = async (id) => {
     if (window.confirm('Você tem certeza?')) {
@@ -24,6 +25,16 @@ const UserListScreen = () => {
         toast.error(err?.data?.message || err.error);
       }
     }
+  };
+
+  const handleShow = (id) => {
+    setUserIdToDelete(id);
+    setShowModal(true);
+  };
+
+  const handleClose = () => {
+    setShowModal(false);
+    setUserIdToDelete(null);
   };
 
   return (
@@ -76,7 +87,7 @@ const UserListScreen = () => {
                       <Button
                         variant='danger'
                         className='btn-sm'
-                        onClick={() => deleteHandler(user._id)}
+                        onClick={() => handleShow(user._id)}
                       >
                         <FaTrash style={{ color: 'white' }} />
                       </Button>
@@ -88,6 +99,26 @@ const UserListScreen = () => {
           </tbody>
         </Table>
       )}
+      <Modal show={showModal} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirmar Exclusão</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Você tem certeza que deseja excluir este usuário?</Modal.Body>
+        <Modal.Footer>
+          <Button variant='secondary' onClick={handleClose}>
+            Cancelar
+          </Button>
+          <Button
+            variant='danger'
+            onClick={() => {
+              deleteHandler(userIdToDelete);
+              handleClose();
+            }}
+          >
+            Excluir
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };
