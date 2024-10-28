@@ -12,7 +12,7 @@ const products = [
     numReviews: 1,
   },
   {
-    name: 'Kit 500 Resistores Variados de 20Ω ohm a 1MΩ',
+    name: 'Kit 500 Resistores Variados de 20Ω a 1MΩ',
     image: '/images/kitresistor.png',
     description:
       'Kit de resistores variados, útil em diversas disciplinas de laboratório ao longo do curso.',
