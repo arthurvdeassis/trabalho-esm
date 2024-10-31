@@ -1,21 +1,9 @@
-// @ts-check
-import { isValidObjectId } from 'mongoose';
-
-/**
- * Checa se os req.params.id são validos para o Mongoose ObjectId.
- *
- * @param {import('express').Request} req
- * @param {import('express').Response} res
- * @param {import('express').NextFunction} next
- * @throws {Error}
- */
-
-function checkObjectId(req, res, next) {
-  if (!isValidObjectId(req.params.id)) {
+const checkObjectId = (req, res, next) => {
+  if (!Number.isInteger(Number(req.params.id))) {
     res.status(404);
-    throw new Error(`Invalid ObjectId of:  ${req.params.id}`);
+    throw new Error(`Invalid ID: ${req.params.id}`);
   }
   next();
-}
+};
 
 export default checkObjectId;
