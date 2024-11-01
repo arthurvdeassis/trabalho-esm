@@ -11,8 +11,8 @@ import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 
 import fs from 'fs';
 
-const configPath = './config/sequelize.js';
-console.log(`Checking if ${configPath} exists:`, fs.existsSync(configPath));
+// const configPath = './config/sequelize.js';
+// console.log(`Checking if ${configPath} exists:`, fs.existsSync(configPath));
 
 const port = process.env.PORT || 5000;
 
