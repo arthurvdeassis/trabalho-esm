@@ -1,11 +1,10 @@
-import mongoose from 'mongoose';
+import { sequelize, connectDB } from '../config/sequelize.js';
 import dotenv from 'dotenv';
 import colors from 'colors';
 import users from './data/users.js';
 import products from './data/products.js';
-import User from './models/userModel.js';
-import Product from './models/productModel.js';
-import connectDB from './config/db.js';
+import User from '../models/userModel.js';
+import Product from '../models/productModel.js';
 
 dotenv.config();
 
@@ -13,18 +12,17 @@ connectDB();
 
 const importData = async () => {
   try {
-    await Product.deleteMany();
-    await User.deleteMany();
+    await sequelize.sync({ force: true });
 
-    const createdUsers = await User.insertMany(users);
+    const createdUsers = await User.bulkCreate(users, { returning: true });
 
-    const adminUser = createdUsers[0]._id;
+    const adminUser = createdUsers[0].id;
 
     const sampleProducts = products.map((product) => {
       return { ...product, user: adminUser };
     });
 
-    await Product.insertMany(sampleProducts);
+    await Product.bulkCreate(sampleProducts);
 
     console.log('Dados importados!'.green.inverse);
     process.exit();
@@ -36,8 +34,7 @@ const importData = async () => {
 
 const destroyData = async () => {
   try {
-    await Product.deleteMany();
-    await User.deleteMany();
+    await sequelize.sync({ force: true });
 
     console.log('Dados excluídos!'.red.inverse);
     process.exit();

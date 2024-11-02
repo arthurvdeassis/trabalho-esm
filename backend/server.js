@@ -3,11 +3,16 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 dotenv.config();
-import connectDB from './config/db.js';
+import { connectDB } from './config/sequelize.js';
 import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
+
+import fs from 'fs';
+
+// const configPath = './config/sequelize.js';
+// console.log(`Checking if ${configPath} exists:`, fs.existsSync(configPath));
 
 const port = process.env.PORT || 5000;
 

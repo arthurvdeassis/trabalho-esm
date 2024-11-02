@@ -83,8 +83,8 @@ const ProductListScreen = () => {
             </thead>
             <tbody>
               {data.products.map((product) => (
-                <tr key={product._id}>
-                  <td>{product._id}</td>
+                <tr key={product.id}>
+                  <td>{product.id}</td>
                   <td>{product.name}</td>
                   <td>R${product.price}</td>
                   <td>{product.category}</td>
@@ -92,7 +92,7 @@ const ProductListScreen = () => {
                   <td>
                     <Button
                       as={Link}
-                      to={`/admin/product/${product._id}/edit`}
+                      to={`/admin/product/${product.id}/edit`}
                       variant='light'
                       className='btn-sm mx-2'
                     >
@@ -102,7 +102,7 @@ const ProductListScreen = () => {
                       variant='danger'
                       className='btn-sm'
                       onClick={() => {
-                        setProductToDelete(product._id);
+                        setProductToDelete(product.id);
                         setShowDeleteModal(true);
                       }}
                     >

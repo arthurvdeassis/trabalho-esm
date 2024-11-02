@@ -161,10 +161,12 @@ const ProductScreen = () => {
           <Row className='review'>
             <Col md={6}>
               <h2>Avaliações</h2>
-              {product.reviews.length === 0 && <Message>Sem avaliações</Message>}
+              {product.reviews && product.reviews.length === 0 && (
+                <Message>Sem avaliações</Message>
+              )}
               <ListGroup variant='flush'>
-                {product.reviews.map((review) => (
-                  <ListGroup.Item key={review._id}>
+                {product.reviews && product.reviews.map((review) => (
+                  <ListGroup.Item key={review.id}>
                     <strong>{review.name}</strong>
                     <Rating value={review.rating} />
                     <p>{review.createdAt.substring(0, 10)}</p>

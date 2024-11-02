@@ -5,16 +5,17 @@ import User from '../models/userModel.js';
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ where: { email } });
 
   if (user && (await user.matchPassword(password))) {
-    generateToken(res, user._id);
+    const token = generateToken(res, user.id);
 
     res.json({
-      _id: user._id,
+      id: user.id,
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
+      token, // Include the token in the response
     });
   } else {
     res.status(401);
@@ -25,7 +26,7 @@ const authUser = asyncHandler(async (req, res) => {
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
-  const userExists = await User.findOne({ email });
+  const userExists = await User.findOne({ where: { email } });
 
   if (userExists) {
     res.status(400);
@@ -39,13 +40,14 @@ const registerUser = asyncHandler(async (req, res) => {
   });
 
   if (user) {
-    generateToken(res, user._id);
+    const token = generateToken(res, user.id);
 
     res.status(201).json({
-      _id: user._id,
+      id: user.id,
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
+      token, // Include the token in the response
     });
   } else {
     res.status(400);
@@ -59,11 +61,11 @@ const logoutUser = (req, res) => {
 };
 
 const getUserProfile = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.user._id);
+  const user = await User.findByPk(req.user.id);
 
   if (user) {
     res.json({
-      _id: user._id,
+      id: user.id,
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
@@ -75,7 +77,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 });
 
 const updateUserProfile = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.user._id);
+  const user = await User.findByPk(req.user.id);
 
   if (user) {
     user.name = req.body.name || user.name;
@@ -88,7 +90,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     const updatedUser = await user.save();
 
     res.json({
-      _id: updatedUser._id,
+      id: updatedUser.id,
       name: updatedUser.name,
       email: updatedUser.email,
       isAdmin: updatedUser.isAdmin,
@@ -100,19 +102,19 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 });
 
 const getUsers = asyncHandler(async (req, res) => {
-  const users = await User.find({});
+  const users = await User.findAll();
   res.json(users);
 });
 
 const deleteUser = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.params.id);
+  const user = await User.findByPk(req.params.id);
 
   if (user) {
     if (user.isAdmin) {
       res.status(400);
       throw new Error('Usuário administrador não pode ser deletado.');
     }
-    await User.deleteOne({ _id: user._id });
+    await user.destroy();
     res.json({ message: 'Usuário removido.' });
   } else {
     res.status(404);
@@ -121,7 +123,9 @@ const deleteUser = asyncHandler(async (req, res) => {
 });
 
 const getUserById = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.params.id).select('-password');
+  const user = await User.findByPk(req.params.id, {
+    attributes: { exclude: ['password'] },
+  });
 
   if (user) {
     res.json(user);
@@ -132,7 +136,7 @@ const getUserById = asyncHandler(async (req, res) => {
 });
 
 const updateUser = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.params.id);
+  const user = await User.findByPk(req.params.id);
 
   if (user) {
     user.name = req.body.name || user.name;
@@ -142,7 +146,7 @@ const updateUser = asyncHandler(async (req, res) => {
     const updatedUser = await user.save();
 
     res.json({
-      _id: updatedUser._id,
+      id: updatedUser.id,
       name: updatedUser.name,
       email: updatedUser.email,
       isAdmin: updatedUser.isAdmin,

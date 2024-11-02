@@ -1,44 +1,43 @@
+import { Op } from 'sequelize';
 import asyncHandler from '../middleware/asyncHandler.js';
 import Product from '../models/productModel.js';
 
 const getProducts = asyncHandler(async (req, res) => {
-  const pageSize = process.env.PAGINATION_LIMIT;
+  const pageSize = parseInt(process.env.PAGINATION_LIMIT, 10) || 10;
   const page = Number(req.query.pageNumber) || 1;
 
   const keyword = req.query.keyword
     ? {
         name: {
-          $regex: req.query.keyword,
-          $options: 'i',
+          [Op.like]: `%${req.query.keyword}%`,
         },
       }
     : {};
 
-  const count = await Product.countDocuments({ ...keyword });
-  const products = await Product.find({ ...keyword })
-    .limit(pageSize)
-    .skip(pageSize * (page - 1));
+  const { count, rows: products } = await Product.findAndCountAll({
+    where: keyword,
+    limit: pageSize,
+    offset: pageSize * (page - 1),
+  });
 
   res.json({ products, page, pages: Math.ceil(count / pageSize) });
 });
 
 const getProductById = asyncHandler(async (req, res) => {
-
-  const product = await Product.findById(req.params.id);
+  const product = await Product.findByPk(req.params.id);
   if (product) {
-    return res.json(product);
+    res.json(product);
   } else {
-
     res.status(404);
     throw new Error('Produto não encontrado');
   }
 });
 
 const createProduct = asyncHandler(async (req, res) => {
-  const product = new Product({
+  const product = await Product.create({
     name: 'Digite o nome do produto',
     price: 0,
-    user: req.user._id,
+    userId: req.user ? req.user.id : null, // Use userId if available
     image: '/images/produto.png',
     brand: 'Digite a marca do produto',
     category: 'Digite a categoria do produto',
@@ -47,15 +46,14 @@ const createProduct = asyncHandler(async (req, res) => {
     description: 'Descreva o produto',
   });
 
-  const createdProduct = await product.save();
-  res.status(201).json(createdProduct);
+  res.status(201).json(product);
 });
 
 const updateProduct = asyncHandler(async (req, res) => {
   const { name, price, description, image, brand, category, countInStock } =
     req.body;
 
-  const product = await Product.findById(req.params.id);
+  const product = await Product.findByPk(req.params.id);
 
   if (product) {
     product.name = name;
@@ -75,25 +73,25 @@ const updateProduct = asyncHandler(async (req, res) => {
 });
 
 const deleteProduct = asyncHandler(async (req, res) => {
-  const product = await Product.findById(req.params.id);
+  const product = await Product.findByPk(req.params.id);
 
   if (product) {
-    await Product.deleteOne({ _id: product._id });
-    res.json({ message: 'Product removed' });
+    await product.destroy();
+    res.json({ message: 'Produto removido' });
   } else {
     res.status(404);
-    throw new Error('Product not found');
+    throw new Error('Produto não encontrado');
   }
 });
 
 const createProductReview = asyncHandler(async (req, res) => {
   const { rating, comment } = req.body;
 
-  const product = await Product.findById(req.params.id);
+  const product = await Product.findByPk(req.params.id);
 
   if (product) {
     const alreadyReviewed = product.reviews.find(
-      (r) => r.user.toString() === req.user._id.toString()
+      (r) => r.userId === req.user.id
     );
 
     if (alreadyReviewed) {
@@ -105,7 +103,7 @@ const createProductReview = asyncHandler(async (req, res) => {
       name: req.user.name,
       rating: Number(rating),
       comment,
-      user: req.user._id,
+      userId: req.user.id,
     };
 
     product.reviews.push(review);
@@ -125,7 +123,10 @@ const createProductReview = asyncHandler(async (req, res) => {
 });
 
 const getTopProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find({}).sort({ rating: -1 }).limit(3);
+  const products = await Product.findAll({
+    order: [['rating', 'DESC']],
+    limit: 3,
+  });
 
   res.json(products);
 });
