@@ -3,6 +3,7 @@ import generateToken from '../utils/generateToken.js';
 import User from '../models/userModel.js';
 
 const authUser = asyncHandler(async (req, res) => {
+  
   const { email, password } = req.body;
 
   const user = await User.findOne({ where: { email } });
@@ -10,16 +11,19 @@ const authUser = asyncHandler(async (req, res) => {
   if (user && (await user.matchPassword(password))) {
     const token = generateToken(res, user.id);
 
-    res.json({
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      isAdmin: user.isAdmin,
-      token, // Include the token in the response
-    });
+      res.json({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        isAdmin: user.isAdmin,
+        token, // Include the token in the response
+      });
+ 
   } else {
+
     res.status(401);
     throw new Error('E-mail e/ou senha inválidos!');
+
   }
 });
 

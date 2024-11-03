@@ -49,7 +49,7 @@ const CartScreen = () => {
           <h1 style={{ marginBottom: '20px' }}>Carrinho de compras</h1>
           {cartItems.length === 0 ? (
             <Message>
-              Seu carrinho está vazio. <Link to='/'>Voltar</Link>
+              Seu carrinho está vazio. <Link to='/'>Adicionar produtos</Link>
             </Message>
           ) : (
             <ListGroup variant='flush'>
