@@ -1,6 +1,6 @@
 import { Table, Button, Row, Col, Modal } from 'react-bootstrap';
 import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import Message from '../../components/Message';
 import Loader from '../../components/Loader';
 import Paginate from '../../components/Paginate';
@@ -14,6 +14,7 @@ import { useState } from 'react';
 
 const ProductListScreen = () => {
   const { pageNumber } = useParams();
+  const navigate = useNavigate();
 
   const { data, isLoading, error, refetch } = useGetProductsQuery({
     pageNumber,
@@ -56,9 +57,9 @@ const ProductListScreen = () => {
           <h1>Produtos</h1>
         </Col>
         <Col className='text-end'>
-          <Button className='my-3' onClick={() => setShowCreateModal(true)}>
+        <Button className='my-3' onClick={() => navigate('/admin/product/create')}>
             <FaPlus /> Criar produto
-          </Button>
+        </Button>
         </Col>
       </Row>
 

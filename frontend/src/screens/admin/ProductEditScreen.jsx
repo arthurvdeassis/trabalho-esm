@@ -120,7 +120,7 @@ const ProductEditScreen = () => {
               <Form.Label>Imagem</Form.Label>
               <Form.Control
                 type='text'
-                placeholder='Insira a URL de imagem do produto'
+                placeholder='Insira a imagem do produto'
                 value={image}
                 onChange={(e) => setImage(e.target.value)}
               ></Form.Control>

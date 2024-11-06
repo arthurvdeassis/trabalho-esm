@@ -56,7 +56,7 @@ const RegisterScreen = () => {
           <Form.Label>Nome</Form.Label>
           <Form.Control
             type='name'
-            placeholder='Enter name'
+            placeholder='Digite seu nome'
             value={name}
             onChange={(e) => setName(e.target.value)}
           ></Form.Control>

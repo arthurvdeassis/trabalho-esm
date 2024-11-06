@@ -34,16 +34,18 @@ const getProductById = asyncHandler(async (req, res) => {
 });
 
 const createProduct = asyncHandler(async (req, res) => {
+  const { name, price, image, brand, category, description, countInStock } = req.body;
+
   const product = await Product.create({
-    name: 'Digite o nome do produto',
-    price: 0,
-    userId: req.user ? req.user.id : null, // Use userId if available
-    image: '/images/produto.png',
-    brand: 'Digite a marca do produto',
-    category: 'Digite a categoria do produto',
-    countInStock: 0,
+    name,
+    price,
+    userId: req.user ? req.user.id : null,
+    image,
+    brand,
+    category,
+    countInStock,
     numReviews: 0,
-    description: 'Descreva o produto',
+    description,
   });
 
   res.status(201).json(product);

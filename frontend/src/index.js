@@ -26,6 +26,7 @@ import UserEditScreen from './screens/admin/UserEditScreen';
 import store from './store';
 import { Provider } from 'react-redux';
 import OrderListScreen from './screens/admin/OrderListScreen';
+import ProductCreateScreen from './screens/admin/ProductCreateScreen';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -50,6 +51,7 @@ const router = createBrowserRouter(
         <Route path='/admin/product/:id/edit' element={<ProductEditScreen />} />
         <Route path='/admin/user/:id/edit' element={<UserEditScreen />} />
         <Route path='/admin/orderlist/' element={<OrderListScreen />} />
+        <Route path='/admin/product/create/' element={<ProductCreateScreen />} />
       </Route>
     </Route>
   )
