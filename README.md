@@ -101,3 +101,12 @@ Permitir que os usuários consigam **gerenciar componentes** (CRUD), **visualiza
 
 ### Meta da Sprint:
 - Ao final da Sprint 1, o usuário deve ser capaz de **gerenciar componentes** (CRUD), **visualizar detalhes de um componente específico**, **criar um perfil** e **fazer login/logout**. Todos os dados devem ser validados e armazenados com segurança no banco de dados.
+
+### Diagramas UML 
+**Administrador gerencia usuários e produtos**
+![Diagrama UML - Administrador gerencia produtos e usuários_page-0001](https://github.com/user-attachments/assets/a9d5d4d5-d4f0-4fa0-9005-ef127f40812a)
+
+
+**Usuário adiciona item no carrinho de compras**
+![Diagrama UML - Usuário adiciona item no carrinho de compras_page-0001](https://github.com/user-attachments/assets/b3a9035c-b30f-4f4d-ab59-8c263718377c)
+
